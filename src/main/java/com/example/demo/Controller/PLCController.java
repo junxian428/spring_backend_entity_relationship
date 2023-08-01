@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/plc")
+@CrossOrigin("*")
 public class PLCController {
 
     private final PLCService plcService;

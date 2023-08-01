@@ -2,7 +2,9 @@ package com.example.demo.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.Entity.Address;
 import com.example.demo.Entity.PLC;
 import com.example.demo.Repository.PLCRepository;
 
@@ -29,7 +31,11 @@ public class PLCService {
     }
 
     // Service method to create a new PLC
+    @Transactional
     public PLC createPLC(PLC plc) {
+        for(Address addresses : plc.getAddresses() ){
+            addresses.setPlc(plc);
+        }
         return plcRepository.save(plc);
     }
 
