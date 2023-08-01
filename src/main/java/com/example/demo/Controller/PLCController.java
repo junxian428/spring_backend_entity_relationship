@@ -55,6 +55,7 @@ public class PLCController {
             existingPLC.setName(updatedPLC.getName());
             existingPLC.setToken(updatedPLC.getToken());
             existingPLC.setUserid(updatedPLC.getUserid());
+            existingPLC.setAddresses(updatedPLC.getAddresses());
             // You can update other fields as needed
             PLC updatedPLCData = plcService.updatePLC(existingPLC);
             return new ResponseEntity<>(updatedPLCData, HttpStatus.OK);

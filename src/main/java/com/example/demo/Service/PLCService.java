@@ -8,6 +8,8 @@ import com.example.demo.Entity.Address;
 import com.example.demo.Entity.PLC;
 import com.example.demo.Repository.PLCRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+
 import java.util.List;
 
 @Service
@@ -40,7 +42,13 @@ public class PLCService {
     }
 
     // Service method to update an existing PLC
+    @Transactional
     public PLC updatePLC(PLC plc) {
+        //
+          for(Address addresses : plc.getAddresses() ){
+            addresses.setPlc(plc);
+        }
+
         return plcRepository.save(plc);
     }
 
