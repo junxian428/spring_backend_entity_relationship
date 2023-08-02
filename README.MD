@@ -297,3 +297,12 @@ VALUES
     }
 ]
 
+
+IOT API how to identify object of Internet?
+
+"token": "Delta",
+
+"userid": 5
+
+"address_name": "0.00"
+

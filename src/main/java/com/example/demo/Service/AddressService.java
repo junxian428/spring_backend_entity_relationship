@@ -36,6 +36,7 @@ public class AddressService {
             // Update the existing address properties with the updated ones
             existingAddress.setDescription(updatedAddress.getDescription());
             existingAddress.setPlc(updatedAddress.getPlc());
+            existingAddress.setId(id);
             return addressRepository.save(existingAddress);
         }
         return null;

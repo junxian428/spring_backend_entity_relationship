@@ -64,6 +64,23 @@ public class PLCController {
         }
     }
 
+
+    @PutMapping("updateToken/{id}")
+    public ResponseEntity<PLC> updateToken(@PathVariable Integer id, @RequestBody PLC updatedPLC) {
+        PLC existingPLC = plcService.getPLCById(id);
+        if (existingPLC != null) {
+            existingPLC.setName(updatedPLC.getName());
+            existingPLC.setToken(updatedPLC.getToken());
+            existingPLC.setUserid(updatedPLC.getUserid());
+            //existingPLC.setAddresses(updatedPLC.getAddresses());
+            // You can update other fields as needed
+            //PLC updatedPLCData = plcService.updatePLC(existingPLC);
+            return new ResponseEntity<>(existingPLC, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     // Endpoint to delete a PLC by ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePLC(@PathVariable Integer id) {

@@ -32,6 +32,10 @@ public class PLCService {
         return plcRepository.findById(id).orElse(null);
     }
 
+    public PLC getPLCByToken(String token) {
+        return plcRepository.findByToken(token);
+    }
+
     // Service method to create a new PLC
     @Transactional
     public PLC createPLC(PLC plc) {
