@@ -1,5 +1,6 @@
 package com.example.demo.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.example.demo.Entity.Address;
+import com.example.demo.Entity.AddressEntry;
 import com.example.demo.Entity.PLC;
 import com.example.demo.Entity.Telegram;
 import com.example.demo.Service.PLCService;
@@ -51,38 +53,52 @@ public class TelegramAPI {
         // For this example, we will simply print it to the console
 
         //System.out.println(user);
-        try{
+        String token = dataPLC.getToken();
+        int userId = dataPLC.getUserid();
+        
+        System.out.println("Token is " + token);
+        System.out.println("User ID: " + userId);
+        //System.out.println(userId);
+    // For loop to print the 'name' attribute of each AddressEntry
+        //System.out.println(returnedPLC.getUserid());
 
-            // Create an ObjectMapper instance
-            // Create an ObjectMapper instance
-            String token = dataPLC.getToken();
-            int userId =dataPLC.getUserid();
-            String addressName = dataPLC.getAddress_name();
+        //PLC returnedPLC = plcService.getPLCByToken(token);
+        //System.out.println(returnedPLC.getAddresses());
+        //List<Address> recordAddress = returnedPLC.getAddresses();
+        List<AddressEntry> list = dataPLC.getAddress_name();
+        // For loop to print the 'name' attribute of each AddressEntry
+        PLC result = plcService.getPLCByToken(token);
+        //System.out.println(result.getName());
+        List<Address> recordAddress = result.getAddresses();
 
-            // Print the values
-            System.out.println("Token: " + token);
-            System.out.println("User ID: " + userId);
-            System.out.println("Address Name: " + addressName);
-            try{
-                PLC found = plcService.getPLCByToken(token);
-                List<Address> addresses = found.getAddresses();
 
-                for (Address address : addresses) {
-                    System.out.println("Address ID: " + address.getId());
-                    System.out.println("Description" + address.getDescription());
-                    System.out.println("Name : " + address.getName());
-                    if(dataPLC.getAddress_name().equals(address.getName())){
+        String Telegram_message = "";
 
-                        System.out.println("Data matched....");
-                        //
+
+        String triggered_address = "";
+        for (AddressEntry entry : list) {
+           // System.out.println("Address Name: " + entry.getName());
+            triggered_address = entry.getName();
+            for (Address databasePLCaddress : recordAddress) {
+                if(triggered_address.equals(databasePLCaddress.getName())){
+                    System.out.println("Call API ");
+                    Telegram_message += " Address : " + databasePLCaddress.getName() + " Alarm Description: " + databasePLCaddress.getDescription(); 
+                }
+            }
+        }
+
+
+
+
+          //
                         /*
                          * 
                          * 
                          * 
                          */
                         String botToken = "";
-                        String chatId = "";
-                        String messageText = "Hi\n";
+                        String chatId="";
+                        String messageText = Telegram_message;
                 
                         try {
                             String url = "https://api.telegram.org/bot" + botToken + "/sendMessage";
@@ -123,32 +139,15 @@ public class TelegramAPI {
                          * 
                          */
                         //
-                    }
-                    // ... and so on for other properties of the Address entity
-                }
+        //
 
 
 
 
-                return ResponseEntity.ok("User data received successfully!");
+        //
 
+        return new ResponseEntity<>("Data received successfully", HttpStatus.OK);
 
-            }catch(Exception e){
-
-
-                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not Found 404");
-
-            }
-
-    
-    
-
-        }catch(Exception e){
-
-
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to process and save JSON data!");
-
-        }
         
 
         // Return a response indicating success (HTTP status code 200 OK)

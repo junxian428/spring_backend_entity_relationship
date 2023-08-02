@@ -307,12 +307,34 @@ IOT API how to identify object of Internet?
 "address_name": "0.00"
 
 
-
+ONE-TO-ONE
 
 {
     "token": "Delta",
     "userid": 5,
     "address_name": "0.00"
 }
+
+
+ONE-TO-MANY
+
+http://localhost:8089/telegram/alert
+
+
+{
+    "token": "OMRON PLC",
+    "userid": 5,
+    "address_name": [
+        {
+            "name": "100.00"
+        },
+        {
+            "name": "100.01"
+        }
+    ]
+}
+
+
+
 
 
